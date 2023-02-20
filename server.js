@@ -28,20 +28,16 @@ const transporter = nodemailer.createTransport({
 app.get('/guestbook_data', (req, res) => {
     const data = fs.readFileSync('./data/guestbook.json');
     const guestbook = JSON.parse(data);
-    console.log(guestbook);
     res.status(200).json(guestbook);
 })
 
 app.post('/guestbook_submit', (req, res) => {
-    console.log('submit called');
     const { name, message } = req.body;
-    console.log(name + ' ' + message);
 
     const data = fs.readFileSync('./data/guestbook.json');
     let guestbook = JSON.parse(data);
 
     guestbook.push({ id: uuid_v4(), name, message, currentDate: getDate() });
-    console.log(guestbook);
 
     try {
         fs.writeFileSync('./data/guestbook.json', JSON.stringify(guestbook));
@@ -49,7 +45,6 @@ app.post('/guestbook_submit', (req, res) => {
         console.error(e);
     }
 
-    console.log('submit ended');
     res.status(200).json(guestbook);
 })
 
