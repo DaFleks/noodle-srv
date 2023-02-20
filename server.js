@@ -29,10 +29,13 @@ app.get('/guestbook_data', (req, res) => {
 })
 
 app.post('/guestbook_submit', (req, res) => {
+    console.log('submit called');
     const { name, message } = req.body;
     const guestbookDataCopy = [...guestbookData];
     guestbookDataCopy.push({ id: uuid_v4(), name, message, currentDate: getDate() });
     fs.writeFileSync('./data/guestbook.json', JSON.stringify(guestbookDataCopy));
+    console.log('submit ended');
+    res.status(200);
 })
 
 app.post('/email', async (req, res) => {
