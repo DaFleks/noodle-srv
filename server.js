@@ -35,7 +35,12 @@ app.post('/guestbook_submit', (req, res) => {
     const guestbookDataCopy = [...guestbookData];
     guestbookDataCopy.push({ id: uuid_v4(), name, message, currentDate: getDate() });
     console.log(guestbookDataCopy);
-    fs.writeFileSync('./data/guestbook.json', JSON.stringify(guestbookDataCopy));
+    try {
+        fs.writeFileSync('./data/guestbook.json', JSON.stringify(guestbookDataCopy));
+    } catch (e) {
+        console.error(e);
+    }
+
     console.log('submit ended');
     res.status(200);
 })
