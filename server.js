@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const { v4: uuid_v4 } = require('uuid');
+const cors = require('cors');
 const fs = require('fs');
 const guestbookData = require('./data/guestbook.json');
 
@@ -10,6 +11,7 @@ const HTTP_PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use(express.static('public'));
 
