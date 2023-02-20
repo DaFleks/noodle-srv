@@ -20,8 +20,8 @@ app.use(express.static('public'));
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'petropoulosalex@gmail.com', // generated ethereal user
-        pass: 'lwnbyvqwbyvoydxi', // generated ethereal password
+        user: 'faeriecabrera@gmail.com', // generated ethereal user
+        pass: 'weidaobkizfypnof', // generated ethereal password
     },
 });
 
