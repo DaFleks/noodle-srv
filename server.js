@@ -43,7 +43,7 @@ app.post('/email', async (req, res) => {
             from: `${req.body.name} <${req.body.email}>`, // sender address
             to: "petropoulosalex@gmail.com", // list of receivers
             subject: req.body.subject, // Subject line
-            text: req.body.message, // plain text body
+            text: req.body.message + `\n\n ${req.body.email}`, // plain text body
         })
     } catch (e) {
         console.error(e);
