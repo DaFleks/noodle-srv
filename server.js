@@ -37,17 +37,15 @@ app.post('/guestbook_submit', (req, res) => {
 })
 
 app.post('/email', async (req, res) => {
-    console.log(req.body);
     try {
         await transporter.sendMail({
             from: `${req.body.name} <${req.body.email}>`, // sender address
             to: "petropoulosalex@gmail.com", // list of receivers
             subject: req.body.subject, // Subject line
-            text: `FROM: ${req.body.email}` + `\n\n${req.body.message}`, // plain text body
+            text: `Name: ${req.body.name}\nEmail: ${req.body.email} <-- Click this email to respond.\n\n${req.body.message}`, // plain text body
         })
     } catch (e) {
-        console.error(e);
-        res.json({ message: e, code: 0 });
+        res.status(500).json({ message: e, status: 500 });
     }
     res.status(200).json({message: `Email Successfully Sent!`, status: 200})
 })
