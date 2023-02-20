@@ -13,16 +13,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 
-// create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-        user: testAccount.user, // generated ethereal user
-        pass: testAccount.pass, // generated ethereal password
-    },
-});
+// // create reusable transporter object using the default SMTP transport
+// let transporter = nodemailer.createTransport({
+//     host: "smtp.ethereal.email",
+//     port: 587,
+//     secure: false, // true for 465, false for other ports
+//     auth: {
+//         user: testAccount.user, // generated ethereal user
+//         pass: testAccount.pass, // generated ethereal password
+//     },
+// });
 
 app.get('/guestbook_data', (req, res) => {
     res.json(guestbookData);
@@ -37,16 +37,16 @@ app.post('/guestbook_submit', (req, res) => {
 
 app.post('/email', async (req, res) => {
     console.log(req.body);
-    try {
-        await transporter.sendMail({
-            from: req.body.email, // sender address
-            to: "petropoulosalex@gmail.com", // list of receivers
-            subject: req.body.subject, // Subject line
-            text: req.body.message, // plain text body
-        })
-    } catch (e) {
-        console.error(e);
-    }
+    // try {
+    //     await transporter.sendMail({
+    //         from: req.body.email, // sender address
+    //         to: "petropoulosalex@gmail.com", // list of receivers
+    //         subject: req.body.subject, // Subject line
+    //         text: req.body.message, // plain text body
+    //     })
+    // } catch (e) {
+    //     console.error(e);
+    // }
 })
 
 app.listen(HTTP_PORT, () => {
