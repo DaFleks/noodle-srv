@@ -40,7 +40,7 @@ app.post('/email', async (req, res) => {
     console.log(req.body);
     try {
         await transporter.sendMail({
-            from: req.body.email, // sender address
+            from: `${req.body.name} <${req.body.email}>`, // sender address
             to: "petropoulosalex@gmail.com", // list of receivers
             subject: req.body.subject, // Subject line
             text: req.body.message, // plain text body
