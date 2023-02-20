@@ -17,13 +17,11 @@ app.use(cors());
 app.use(express.static('public'));
 
 // create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // true for 465, false for other ports
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
     auth: {
-        user: testAccount.user, // generated ethereal user
-        pass: testAccount.pass, // generated ethereal password
+        user: 'petropoulosalex@gmail.com', // generated ethereal user
+        pass: 'lwnbyvqwbyvoydxi', // generated ethereal password
     },
 });
 
@@ -49,7 +47,7 @@ app.post('/email', async (req, res) => {
         })
     } catch (e) {
         console.error(e);
-        res.json({message: e});
+        res.json({ message: e });
     }
 })
 
