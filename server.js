@@ -26,24 +26,31 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get('/guestbook_data', (req, res) => {
-    res.status(200).sendFile(__dirname + '/data/guestbook.json');
+    const data = fs.readFileSync('./data/guestbook.json');
+    const guestbook = JSON.parse(data);
+    console.log(guestbook);
+    res.status(200).json(guestbook);
 })
 
 app.post('/guestbook_submit', (req, res) => {
     console.log('submit called');
     const { name, message } = req.body;
     console.log(name + ' ' + message);
-    const guestbookDataCopy = [...guestbookData];
-    guestbookDataCopy.push({ id: uuid_v4(), name, message, currentDate: getDate() });
-    console.log(guestbookDataCopy);
+
+    const data = fs.readFileSync('./data/guestbook.json');
+    let guestbook = JSON.parse(data);
+
+    guestbook.push({ id: uuid_v4(), name, message, currentDate: getDate() });
+    console.log(guestbook);
+
     try {
-        fs.writeFileSync('./data/guestbook.json', JSON.stringify(guestbookDataCopy));
+        fs.writeFileSync('./data/guestbook.json', JSON.stringify(guestbook));
     } catch (e) {
         console.error(e);
     }
 
     console.log('submit ended');
-    res.status(200);
+    res.status(200).json(guestbook);
 })
 
 app.post('/email', async (req, res) => {
