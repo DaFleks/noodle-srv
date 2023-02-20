@@ -49,7 +49,7 @@ app.post('/email', async (req, res) => {
         console.error(e);
         res.json({ message: e, code: 0 });
     }
-    res.status(200).json({message: `Email Successfully Sent!`, code: 1})
+    res.status(200).json({message: `Email Successfully Sent!`, status: 200})
 })
 
 app.listen(HTTP_PORT, () => {
