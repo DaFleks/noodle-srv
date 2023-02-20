@@ -43,12 +43,13 @@ app.post('/email', async (req, res) => {
             from: `${req.body.name} <${req.body.email}>`, // sender address
             to: "petropoulosalex@gmail.com", // list of receivers
             subject: req.body.subject, // Subject line
-            text: req.body.message + `\n\n ${req.body.email}`, // plain text body
+            text: `FROM: ${req.body.email}` + `\n\n${req.body.message}`, // plain text body
         })
     } catch (e) {
         console.error(e);
-        res.json({ message: e });
+        res.json({ message: e, code: 0 });
     }
+    res.status(200).json({message: `Email Successfully Sent!`, code: 1})
 })
 
 app.listen(HTTP_PORT, () => {
