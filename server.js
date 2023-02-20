@@ -5,7 +5,6 @@ const { v4: uuid_v4 } = require('uuid');
 const cors = require('cors');
 const fs = require('fs');
 const guestbookData = require('./data/guestbook.json');
-const { resolveMx } = require('dns');
 
 const app = express();
 const HTTP_PORT = process.env.PORT || 5000;
@@ -26,7 +25,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get('/guestbook_data', (req, res) => {
-    res.json(guestbookData);
+    res.status(200).json(guestbookData);
 })
 
 app.post('/guestbook_submit', (req, res) => {
@@ -47,7 +46,7 @@ app.post('/email', async (req, res) => {
     } catch (e) {
         res.status(500).json({ message: e, status: 500 });
     }
-    res.status(200).json({message: `Email Successfully Sent!`, status: 200})
+    res.status(200).json({ message: `Email Successfully Sent!`, status: 200 })
 })
 
 app.listen(HTTP_PORT, () => {
