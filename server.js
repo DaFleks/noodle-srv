@@ -5,6 +5,7 @@ const { v4: uuid_v4 } = require('uuid');
 const cors = require('cors');
 const fs = require('fs');
 const guestbookData = require('./data/guestbook.json');
+const path = require('path');
 
 const app = express();
 const HTTP_PORT = process.env.PORT || 5000;
@@ -25,7 +26,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get('/guestbook_data', (req, res) => {
-    res.status(200).sendFile('../data/guestbook.json');
+    res.status(200).sendFile(__dirname + '/data/guestbook.json');
 })
 
 app.post('/guestbook_submit', (req, res) => {
