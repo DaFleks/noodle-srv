@@ -25,7 +25,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get('/guestbook_data', (req, res) => {
-    res.status(200).sendFile(guestbookData);
+    res.status(200).sendFile('./data/guestbook.json');
 })
 
 app.post('/guestbook_submit', (req, res) => {
