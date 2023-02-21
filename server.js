@@ -1,11 +1,10 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const { v4: uuid_v4 } = require('uuid');
 const cors = require('cors');
 const fs = require('fs');
-const guestbookData = require('./data/guestbook.json');
-const path = require('path');
 
 const app = express();
 const HTTP_PORT = process.env.PORT || 5000;
@@ -20,8 +19,8 @@ app.use(express.static('public'));
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'faeriecabrera@gmail.com', // generated ethereal user
-        pass: 'weidaobkizfypnof', // generated ethereal password
+        user: 'blah', // generated ethereal user
+        pass: 'blah', // generated ethereal password
     },
 });
 
@@ -52,7 +51,7 @@ app.post('/email', async (req, res) => {
     try {
         await transporter.sendMail({
             from: `${req.body.name} <${req.body.email}>`, // sender address
-            to: "faeriecabrera@gmail.com", // list of receivers
+            to: "blah", // list of receivers
             subject: req.body.subject, // Subject line
             text: `Name: ${req.body.name}\nEmail: ${req.body.email} <-- Click this email to respond.\n\n${req.body.message}`, // plain text body
         })
