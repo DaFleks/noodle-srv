@@ -19,6 +19,7 @@ mongoose.set('strictQuery', false);
 const postSchema = new Schema({
     name: String,
     message: String,
+    currentDate: String
 })
 
 const Post = model('Post', postSchema);
@@ -56,6 +57,8 @@ app.post('/guestbook_submit', async (req, res) => {
     const post = new Post({ name: name, message: message, currentDate: getDate() });
     try {
         await post.save();
+        const posts = await Post.find({});
+        res.status(200).json(posts);
     } catch (e) {
         console.error(e);
     }
