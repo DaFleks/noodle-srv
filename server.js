@@ -8,7 +8,7 @@ const guestbookData = require('./data/guestbook.json');
 const path = require('path');
 
 const app = express();
-const HTTP_PORT = process.env.PORT || 5000;
+const HTTP_PORT = process.env.PORT || 443;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
