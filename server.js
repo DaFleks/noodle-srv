@@ -3,11 +3,25 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const { v4: uuid_v4 } = require('uuid');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const fs = require('fs');
 
 const app = express();
 const HTTP_PORT = process.env.PORT || 5000;
+
+//  Mongoose Stuff
+(async () => {
+    await mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PW}@noodle-cluster.m8ww9zy.mongodb.net/?retryWrites=true&w=majority`);
+})();
+const { Schema, model } = mongoose;
+mongoose.set('strictQuery', false);
+const postSchema = new Schema({
+    name: String,
+    message: String,
+})
+
+const Post = model('Post', postSchema);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,27 +38,27 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-app.get('/guestbook_data', (req, res) => {
-    const data = fs.readFileSync('./data/guestbook.json');
-    const guestbook = JSON.parse(data);
-    res.status(200).json(guestbook);
+app.get('/', (req, res) => {
+    res.send('wat');
 })
 
-app.post('/guestbook_submit', (req, res) => {
-    const { name, message } = req.body;
-
-    const data = fs.readFileSync('./data/guestbook.json');
-    let guestbook = JSON.parse(data);
-
-    guestbook.push({ id: uuid_v4(), name, message, currentDate: getDate() });
-
+app.get('/guestbook', async (req, res) => {
     try {
-        fs.writeFileSync('./data/guestbook.json', JSON.stringify(guestbook));
+        const posts = await Post.find({});
+        res.status(200).json(posts);
     } catch (e) {
         console.error(e);
     }
+})
 
-    res.status(200).json(guestbook);
+app.post('/guestbook_submit', async (req, res) => {
+    const { name, message } = req.body;
+    const post = new Post({ name: name, message: message, currentDate: getDate() });
+    try {
+        await post.save();
+    } catch (e) {
+        console.error(e);
+    }
 })
 
 app.post('/email', async (req, res) => {
